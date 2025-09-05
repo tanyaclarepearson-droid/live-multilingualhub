@@ -1,15 +1,8 @@
 [
   {
     "id": "jukebox",
-    "src": "public/overlays/jukebox.png",
-    "center": { "xPct": 22.5, "yPct": 74.0 },
-    "size":   { "wPct": 14.0 },
-    "hotspot": { "href": "/music", "title": "SongBridge" }
-  },
-  {
-    "id": "smartboard",
-    "src": "public/overlays/smartboard.png",
-    "center": { "xPct": 62.0, "yPct": 36.0 },
-    "size":   { "wPct": 28.0 }
+    "src": "/public/overlays/jukebox.png",
+    "center": { "xPct": 50, "yPct": 50 },
+    "size": { "wPct": 20 }
   }
 ]
