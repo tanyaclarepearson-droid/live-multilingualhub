@@ -16,3 +16,44 @@ html, body { margin: 0; height: 100%; }
   pointer-events: auto;             /* enable clicks for hotspots */
 }
 .hotspot { cursor: pointer; }
+/* --- Readability system --- */
+:root {
+  --font-scale: 1;
+  --line-space: 1.5;
+}
+
+/* Apply scaling site-wide */
+html, body { font-size: calc(16px * var(--font-scale)); line-height: var(--line-space); }
+
+/* High-contrast mode */
+.hc body, body.hc {
+  background: #fff !important;
+  color: #000 !important;
+}
+.hc a, body.hc a { color: #000; text-decoration: underline; }
+
+/* Floating widget */
+#readability-widget {
+  position: fixed;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 6px;
+  z-index: 1000;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 10px;
+  padding: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.15);
+  backdrop-filter: blur(4px);
+}
+#readability-widget button {
+  border: 1px solid rgba(0,0,0,.15);
+  background: #fff;
+  padding: 6px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+#readability-widget button:focus { outline: 2px solid #000; }
+#readability-widget button:hover { background: #f3f3f3; }
