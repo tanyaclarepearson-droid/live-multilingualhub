@@ -17,7 +17,7 @@
     import { mountHotspots } from './js/hotspots.js';
 
     async function boot() {
-      const spec = await fetch('/data/overlays.json?v=5').then(r => r.json());
+      const spec = await fetch('/data/overlays.json?v=6').then(r => r.json());
       fitOverlays(spec);
       mountHotspots(spec);
     }
