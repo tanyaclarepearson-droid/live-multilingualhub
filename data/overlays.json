@@ -2,7 +2,7 @@
   {
     "id": "jukebox",
     "src": "/public/overlays/jukebox.png",
-    "center": { "xPct": 50, "yPct": 50 },
-    "size": { "wPct": 20 }
+    "center": { "xPct": 17.5, "yPct": 68 },
+    "size": { "wPct": 14 }
   }
 ]
