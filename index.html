@@ -8,7 +8,7 @@
 </head>
 <body>
   <main id="stage" aria-label="Hub stage">
-    <img id="bg" src="public/bg-room.webp" alt="" />
+    <img id="bg" src="/public/bg-room.webp" alt="" />
     <div id="overlays"></div>
   </main>
 
@@ -17,7 +17,7 @@
     import { mountHotspots } from './js/hotspots.js';
 
     async function boot() {
-      const spec = await fetch('./data/overlays.json').then(r => r.json());
+      const spec = await fetch('/data/overlays.json?v=1').then(r => r.json());
       fitOverlays(spec);
       mountHotspots(spec);
     }
