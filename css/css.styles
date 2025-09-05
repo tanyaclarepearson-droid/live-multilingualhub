@@ -1,0 +1,18 @@
+:root { --hub-max-w: 1600px; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+#stage {
+  position: relative;
+  margin: 0 auto;
+  max-width: var(--hub-max-w);
+  width: 100%;
+  overflow: hidden;
+}
+#bg { width: 100%; height: auto; display: block; }
+#overlays { position: absolute; inset: 0; pointer-events: none; }
+.overlay {
+  position: absolute;
+  transform: translate(-50%, -50%); /* anchor from center */
+  pointer-events: auto;             /* enable clicks for hotspots */
+}
+.hotspot { cursor: pointer; }
