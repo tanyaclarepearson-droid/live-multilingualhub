@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multilingual Learning Hub — Live</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main id="stage" aria-label="Hub stage">
+    <img id="bg" src="public/bg-room.webp" alt="" />
+    <div id="overlays"></div>
+  </main>
+
+  <script type="module">
+    import { fitOverlays } from './js/app.js';
+    import { mountHotspots } from './js/hotspots.js';
+
+    async function boot() {
+      const spec = await fetch('./data/overlays.json').then(r => r.json());
+      fitOverlays(spec);
+      mountHotspots(spec);
+    }
+    addEventListener('resize', boot);
+    boot();
+  </script>
+</body>
+</html>
