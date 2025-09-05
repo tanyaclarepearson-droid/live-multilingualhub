@@ -57,3 +57,23 @@ html, body { font-size: calc(16px * var(--font-scale)); line-height: var(--line-
 }
 #readability-widget button:focus { outline: 2px solid #000; }
 #readability-widget button:hover { background: #f3f3f3; }
+/* --- Dyslexia-friendly font (OpenDyslexic via jsDelivr) --- */
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/alternatives/OpenDyslexicAlt-Regular.otf') format('opentype');
+  font-display: swap;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'OpenDyslexic';
+  src: url('https://cdn.jsdelivr.net/gh/antijingoist/open-dyslexic/alternatives/OpenDyslexicAlt-Bold.otf') format('opentype');
+  font-display: swap;
+  font-weight: 700;
+}
+
+/* When dyslexia-friendly mode is on */
+body.dys {
+  font-family: 'OpenDyslexic', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  letter-spacing: 0.02em;   /* slight spacing can aid readability */
+}
+
