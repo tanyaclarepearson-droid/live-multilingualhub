@@ -1,0 +1,11 @@
+/data/*
+  Cache-Control: no-store, must-revalidate
+
+/js/*
+  Cache-Control: public, max-age=300
+
+/css/*
+  Cache-Control: public, max-age=300
+
+/public/*
+  Cache-Control: public, max-age=3600
