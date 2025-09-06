@@ -76,4 +76,33 @@ body.dys {
   font-family: 'OpenDyslexic', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   letter-spacing: 0.02em;   /* slight spacing can aid readability */
 }
+/* Adapt Tool UI */
+#adapt-tool .card {
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin: 12px 0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+#adapt-tool .row {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 8px 0;
+}
+#adapt-tool .muted { color: #666; font-size: 0.95rem; }
+#adapt-tool textarea {
+  width: 100%; resize: vertical;
+  padding: 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15);
+  background: #fff;
+}
+#adapt-tool select, #adapt-tool button, #adapt-tool .file span {
+  padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.15); background: #fff; cursor: pointer;
+}
+#adapt-tool button:hover { background: #f4f4f4; }
+#adapt-tool .file input { display: none; }
+#adapt-tool .file span { display: inline-block; }
+#adapt-tool .preview {
+  min-height: 140px; background: #fff; border-radius: 10px; padding: 12px; border: 1px solid rgba(0,0,0,0.12);
+}
+#adapt-tool .preview h4 { margin: 12px 0 6px; }
+#adapt-tool .badge { display:inline-block; padding:2px 6px; border-radius:6px; background:#eef; color:#334; font-size:.85rem; margin-right:6px; }
 
