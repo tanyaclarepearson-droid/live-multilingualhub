@@ -134,6 +134,7 @@
       fitOverlays(spec2);
     });
   })();
+  import(`./js/adapt.js?v=${v}`).then(m => m?.initAdaptTool && m.initAdaptTool());
 </script>
 
 
