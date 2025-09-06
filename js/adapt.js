@@ -22,6 +22,51 @@ export function initAdaptTool() {
     fr.onload  = () => resolve(String(fr.result || ''));
     fr.readAsText(file);
   });
+// Lazy loader for external scripts
+function loadScript(src) {
+  return new Promise((res, rej) => {
+    if (document.querySelector(`script[src="${src}"]`)) return res();
+    const s = document.createElement('script');
+    s.src = src; s.onload = res; s.onerror = () => rej(new Error('Failed to load ' + src));
+    document.head.appendChild(s);
+  });
+}
+
+// Read DOCX -> text using mammoth.js (lazy loads)
+async function readDocx(file) {
+  // CDN: mammoth.browser.min.js exposes window.mammoth
+  await loadScript('https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js');
+  const arrayBuffer = await file.arrayBuffer();
+  const result = await window.mammoth.convertToHtml({ arrayBuffer });
+  // Strip HTML to plain-ish text (keeps periods/spaces)
+  const tmp = document.createElement('div');
+  tmp.innerHTML = result.value;
+  const text = tmp.innerText.replace(/\s+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  return text;
+}
+
+// Read PDF -> text using pdf.js (lazy loads)
+async function readPdf(file) {
+  // pdfjs-dist library + worker
+  await loadScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs'); // ignored by browsers as module
+  await loadScript('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.js');
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.js';
+
+  const arrayBuffer = await file.arrayBuffer();
+  const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+  const pdf = await loadingTask.promise;
+
+  let full = '';
+  for (let p = 1; p <= pdf.numPages; p++) {
+    const page = await pdf.getPage(p);
+    const content = await page.getTextContent();
+    const text = content.items.map(i => i.str).join(' ');
+    full += text + '\n\n';
+  }
+  return full.replace(/\s+/g, ' ').replace(/\n{3,}/g, '\n\n').trim();
+}
 
   // Very simple "adaption" stubs
   function simplify(text, level) {
