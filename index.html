@@ -34,23 +34,60 @@
   <button data-action="reset"    title="Reset readability settings" aria-label="Reset">Reset</button>
 </div>
 
-
-  <script type="module">
-    import { fitOverlays } from './js/app.js';
-    import { mountHotspots } from './js/hotspots.js';
-
-    async function boot() {
-      const spec = await fetch('/data/overlays.json?v=6').then(r => r.json());
-      fitOverlays(spec);
-      mountHotspots(spec);
+<!-- Deploy-aware loader: uses this Netlify deploy's ETag as a cache-busting token -->
+<script type="module">
+  // Get a stable version per deploy (ETag changes on each Netlify deploy)
+  async function getDeployVersion() {
+    try {
+      const res = await fetch(window.location.pathname || '/', {
+        method: 'HEAD',
+        cache: 'no-store'
+      });
+      return res.headers.get('etag') || res.headers.get('x-nf-request-id') || String(Date.now());
+    } catch {
+      return String(Date.now());
     }
-    addEventListener('resize', boot);
-    boot();
-  </script>
-  <script type="module">
-  import { initReadability } from './js/readability.js';
-  initReadability();
+  }
+
+  // Optionally refresh CSS with the same version (so each deploy invalidates the file)
+  function refreshCSS(version) {
+    const link = document.querySelector('link[rel="stylesheet"][href^="css/styles.css"]');
+    if (!link) return;
+    const url = new URL(link.getAttribute('href'), location.origin);
+    url.searchParams.set('v', version);
+    link.href = url.pathname + '?' + url.searchParams.toString();
+  }
+
+  (async () => {
+    const v = await getDeployVersion();
+
+    // Make sure CSS is aligned with this deploy
+    refreshCSS(v);
+
+    // Load app modules with the deploy version
+    const [{ fitOverlays }, { mountHotspots }] = await Promise.all([
+      import(`./js/app.js?v=${v}`),
+      import(`./js/hotspots.js?v=${v}`)
+    ]);
+
+    // Fetch overlays JSON with the deploy version
+    const spec = await fetch(`/data/overlays.json?v=${v}`, { cache: 'no-store' }).then(r => r.json());
+    fitOverlays(spec);
+    mountHotspots(spec);
+
+    // Load readability (separate module) with same version
+    import(`./js/readability.js?v=${v}`).then(m => {
+      if (m?.initReadability) m.initReadability();
+    });
+
+    // Re-apply on resize as you had before
+    addEventListener('resize', async () => {
+      const spec2 = await fetch(`/data/overlays.json?v=${v}`, { cache: 'no-store' }).then(r => r.json());
+      fitOverlays(spec2);
+    });
+  })();
 </script>
+
 
 </body>
 </html>
